@@ -1,0 +1,12 @@
+DirectoryIndex config.ru index.xhtml
+AddHandler cgi-script ru
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /config.ru [L]
+</IfModule>
+<FilesMatch "\.(rb|yml)$">
+Deny from all
+</FilesMatch> 
