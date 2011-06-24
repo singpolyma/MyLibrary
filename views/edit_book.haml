@@ -1,0 +1,28 @@
+%tr
+	%td
+		-if item[:cover]
+			%a{:href => item[:url]}
+				%img.photo{:src => item[:cover][:small], 'alt' => ''}
+		-else
+			No Cover
+
+	%td
+		%a{:href => item[:url]}= item[:title]
+
+	%td
+		-if item[:authors]
+			!= each_tag item[:authors], '%a{:href => item[:url]}= item[:name]'
+		-else
+			Author Unknown
+
+	%td
+		%input{:type => "text", :name => "#{item[:isbn]}[isbn]", :value => item[:isbn]}
+
+	%td
+		%input{:type => "text", :name => "#{item[:isbn]}[rating]", :value => item[:rating]}
+	%td
+		%input{:type => "text", :name => "#{item[:isbn]}[dtadded]", :value => item[:dtadded]}
+	%td
+		%input{:type => "text", :name => "#{item[:isbn]}[dtread]", :value => item[:dtread]}
+	%td
+		%input{:type => "text", :name => "#{item[:isbn]}[tags]", :value => item[:tags].join(',')}

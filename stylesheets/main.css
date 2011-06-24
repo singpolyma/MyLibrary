@@ -1,0 +1,17 @@
+html, body {
+	background-color: #ccc;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	padding: 2%;
+}
+
+img {
+	border: none;
+}
+
+img.photo {
+	max-width: 38px;
+}

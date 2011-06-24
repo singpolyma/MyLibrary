@@ -1,0 +1,28 @@
+-# encoding: utf-8
+!!! 5
+%html(xmlns="http://www.w3.org/1999/xhtml")
+
+	!= include 'views/invisible_header.haml'
+
+	%body
+		%h1= title
+
+		%form(method="post" action="/edit/")
+
+			-if defined?info
+				%p= info
+
+			%table
+				%tr
+					%th Cover
+					%th Title
+					%th Author
+					%th ISBN
+					%th Rating
+					%th Date Added
+					%th Date Read
+					%th Tags
+
+				!= include_for_each books, 'views/edit_book.haml'
+
+			%input(type="submit" value="Save")

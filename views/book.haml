@@ -1,0 +1,24 @@
+%tr
+	%td
+		-if item[:cover]
+			%a{:href => item[:url]}
+				%img.photo{:src => item[:cover][:small], 'alt' => ''}
+		-else
+			No Cover
+
+	%td
+		%a{:href => item[:url]}= item[:title]
+
+	%td
+		-if item[:authors]
+			!= each_tag item[:authors], '%a{:href => item[:url]}= item[:name]'
+		-else
+			Author Unknown
+
+	%td= item[:isbn]
+	%td= item[:rating]
+	%td= item[:dtadded]
+	%td= item[:dtread]
+	%td
+		%ul
+			!= each_tag item[:tags], '%li= item'
