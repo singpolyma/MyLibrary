@@ -10,6 +10,7 @@ $: << ::File.dirname(__FILE__)
 require 'yaml'
 $config = YAML::load_file('config.yaml')
 
+require 'rack/auth/digest/md5'
 require 'rack/accept_media_types'
 #require 'rack/supported_media_types'
 require 'lib/path_info_fix'
@@ -24,6 +25,12 @@ use SubdirectoryRouting, $config['subdirectory'].to_s
 #use Rack::SupportedMediaTypes, ['application/xhtml+xml', 'text/html', 'text/plain']
 
 run HttpRouter.new {
+	def with_auth(env, &protected)
+		auth = ::Rack::Auth::Digest::MD5.new(protected, 'MyLibrary') {|u| $config[:password] }
+		auth.opaque = $$.to_s
+		auth.call(env)
+	end
+
 	get('/?').head.to { |env|
 		require 'controllers/index'
 		IndexController.new(env).render
@@ -35,19 +42,17 @@ run HttpRouter.new {
 	}
 
 	get('/edit/?').head.to { |env|
-		protected = lambda {|env|
+		with_auth(env) {|env|
 			require 'controllers/edit'
 			EditController.new(env).render
 		}
-
-		require 'rack/auth/digest/md5'
-		auth = ::Rack::Auth::Digest::MD5.new(protected, 'mylibrary') {|u| $config[:password] }
-		auth.opaque = $$.to_s
-		auth.call(env)
 	}
 
 	post('/edit/?').to { |env|
-		require 'controllers/edit'
-		EditController.new(env).save
+		with_auth(env) {
+			require 'controllers/edit'
+			EditController.new(env).save
+		}
+	}
 	}
 }
