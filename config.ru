@@ -19,6 +19,7 @@ require 'http_router'
 
 use Rack::Reloader
 use Rack::ContentLength
+use Rack::ShowExceptions
 use PathInfoFix
 use Rack::Static, :urls => ['/stylesheets'] # Serve static files if no real server is present
 use SubdirectoryRouting, $config['subdirectory'].to_s
