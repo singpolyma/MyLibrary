@@ -50,6 +50,8 @@ module DataStore
 	end
 
 	def add_book(book)
+		book[:dtadded] = Time.now.to_s
+
 		open('data/books', 'a') do |fh|
 			add_book_rec(fh, book)
 		end
