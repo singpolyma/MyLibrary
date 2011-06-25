@@ -31,4 +31,12 @@ class AddController < ApplicationController
 	def scrape_data
 		OpenLibrary.search(@req['q'])
 	end
+
+	def render(*args)
+		if recommender && recommender == ''
+			[400, {'Content-Type' => 'text/plain'}, 'You must enter a web or email address.']
+		else
+			super
+		end
+	end
 end
