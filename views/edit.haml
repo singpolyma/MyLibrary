@@ -7,6 +7,10 @@
 	%body
 		%h1= title
 
+		%form(method="get" action="/add/")
+			%input(type="text" name="q" id="add")
+			%input(type="submit" value="Add book")
+
 		%form(method="post" action="/edit/")
 
 			-if defined?info
