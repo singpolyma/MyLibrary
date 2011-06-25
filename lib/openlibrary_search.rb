@@ -8,7 +8,7 @@ module OpenLibrary
 	module_function
 
 	def search(q)
-		page = cached_fetch('http://openlibrary.org/search?q=' + u(q))
+		page = cached_fetch('http://openlibrary.org/search?q=' + u(q)).force_encoding('utf-8')
 		doc = Nokogiri::parse(page)
 		doc.search('#searchResults li')[0,10].map do |el|
 			work_id  = an(el.at('.booktitle a')).attributes['href'].to_s.split('/')

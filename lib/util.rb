@@ -21,6 +21,12 @@ def symbolize_keys(arg)
 	end
 end
 
+def with_auth(env, &protected)
+	auth = ::Rack::Auth::Digest::MD5.new(protected, 'MyLibrary') {|u| $config[:password] }
+	auth.opaque = $$.to_s
+	auth.call(env)
+end
+
 class AlmostNil
 	def method_missing(*args)
 		self

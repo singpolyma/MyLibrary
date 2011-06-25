@@ -19,3 +19,11 @@
 				%th Tags
 
 			!= include_for_each books, 'views/book.haml'
+
+		%form(method="get" action="/add/")
+			%h2 Reccomend a book for me to read
+			%label(for="recommender") Your web address or email address:
+			%input(type="text" name="recommender" id="recommender")
+			%label(for="q") Search for book:
+			%input(type="text" name="q" id="q")
+			%input(type="submit" value="Search")

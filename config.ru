@@ -15,6 +15,7 @@ require 'rack/accept_media_types'
 #require 'rack/supported_media_types'
 require 'lib/path_info_fix'
 require 'lib/subdirectory_routing'
+require 'lib/util'
 require 'http_router'
 
 use Rack::Reloader
@@ -26,12 +27,6 @@ use SubdirectoryRouting, $config['subdirectory'].to_s
 #use Rack::SupportedMediaTypes, ['application/xhtml+xml', 'text/html', 'text/plain']
 
 run HttpRouter.new {
-	def with_auth(env, &protected)
-		auth = ::Rack::Auth::Digest::MD5.new(protected, 'MyLibrary') {|u| $config[:password] }
-		auth.opaque = $$.to_s
-		auth.call(env)
-	end
-
 	get('/?').head.to { |env|
 		require 'controllers/index'
 		IndexController.new(env).render
@@ -66,9 +61,8 @@ run HttpRouter.new {
 	}
 
 	post('/add/?').to { |env|
-		with_auth(env) {
-			require 'controllers/add'
-			AddController.new(env).save
-		}
+		# Auth requirement is inside, only if not a recommendation
+		require 'controllers/add'
+		AddController.new(env).save
 	}
 }

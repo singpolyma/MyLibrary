@@ -4,4 +4,5 @@
 		%img{:src => 'http://covers.openlibrary.org/b/isbn/'+item+'-S.jpg', :cover => 'Cover'}
 		= item
 		%input(type="hidden" name="isbn" value=item)
-		%input(type="submit" value="Add")
+		%input(type="hidden" name="recommender" value=recommender)
+		%input{:type => "submit", :value => (recommender ? "Recommend" : "Add")}

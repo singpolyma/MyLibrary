@@ -64,4 +64,10 @@ module DataStore
 		fh.write "\t#{data[:tags].to_s.split(/,/).map{|i| i.strip}.join(',')}"
 		fh.write "\n"
 	end
+
+	def add_recommend(data)
+		open('data/recommend', 'a') do |fh|
+			fh.puts "#{data[:isbn]}\t#{data[:recommender]}"
+		end
+	end
 end
