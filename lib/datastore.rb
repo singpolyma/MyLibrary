@@ -31,7 +31,13 @@ module DataStore
 			end
 		end
 
-		books
+		books.sort {|a,b|
+			if a[:tags].first.to_s == b[:tags].first.to_s
+				a[:title] <=> b[:title]
+			else
+				a[:tags].first.to_s <=> b[:tags].first.to_s
+			end
+		}
 	end
 
 	def save_books(books)
