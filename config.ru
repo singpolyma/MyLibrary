@@ -35,8 +35,15 @@ run HttpRouter.new {
 	}
 
 	get('/edit/?').head.to { |env|
-		require 'controllers/edit'
-		EditController.new(env).render
+		protected = lambda {|env|
+			require 'controllers/edit'
+			EditController.new(env).render
+		}
+
+		require 'rack/auth/digest/md5'
+		auth = ::Rack::Auth::Digest::MD5.new(protected, 'mylibrary') {|u| $config[:password] }
+		auth.opaque = $$.to_s
+		auth.call(env)
 	}
 
 	post('/edit/?').to { |env|
