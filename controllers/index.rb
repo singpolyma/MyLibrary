@@ -1,10 +1,12 @@
 require 'controllers/application'
-require 'lib/books'
+require 'lib/datastore'
 
 class IndexController < ApplicationController
-	include Books
-
 	def template
 		open('views/view.haml').read
+	end
+
+	def books
+		DataStore.get_books
 	end
 end

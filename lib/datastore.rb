@@ -3,8 +3,10 @@ require 'lib/util'
 require 'json'
 require 'time'
 
-module Books
-	def books
+module DataStore
+	module_function
+
+	def get_books
 		books = open('data/books').read.split(/\n/).map do |line|
 			line = line.split(/\t/)
 			line[1] = line[1].to_s == '' ? nil : line[1].to_i
@@ -30,5 +32,18 @@ module Books
 		end
 
 		books
+	end
+
+	def save_books(books)
+		books = symbolize_keys(books)
+		open('data/books', 'w') do |fh|
+			books.each do |data|
+				fh.write "#{data[:isbn]}\t#{data[:rating]}"
+				fh.write "\t#{data[:dtadded].to_s == '' ? '' : Time.parse(data[:dtadded]).to_i}"
+				fh.write "\t#{data[:dtread].to_s == '' ? '' : Time.parse(data[:dtread]).to_i}"
+				fh.write "\t#{data[:tags].split(/,/).map{|i| i.strip}.join(',')}"
+				fh.write "\n"
+			end
+		end
 	end
 end
