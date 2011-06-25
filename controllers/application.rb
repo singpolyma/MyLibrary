@@ -31,5 +31,7 @@ class ApplicationController < HamlController
 				args[:content_type] += '; charset=utf-8' if args[:content_type]
 				super(args)
 		#end
+	rescue Exception # General error catch-all
+		[500, {'Content-Type' => 'text/plain'}, $!.inspect]
 	end
 end
