@@ -2,7 +2,13 @@
 # encoding: utf-8
 #\ -E deployment
 
-$: << File.dirname(__FILE__)
+# load paths relative to document root
+$: << ::File.dirname(__FILE__)
+::Dir.chdir(::File.dirname(__FILE__))
+
+# load config file
+require 'yaml'
+$config = YAML::load_file('config.yaml')
 
 require 'rack/accept_media_types'
 #require 'rack/supported_media_types'
@@ -14,7 +20,7 @@ use Rack::Reloader
 use Rack::ContentLength
 use PathInfoFix
 use Rack::Static, :urls => ['/stylesheets'] # Serve static files if no real server is present
-#use SubdirectoryRouting, $config['subdirectory'].to_s
+use SubdirectoryRouting, $config['subdirectory'].to_s
 #use Rack::SupportedMediaTypes, ['application/xhtml+xml', 'text/html', 'text/plain']
 
 run HttpRouter.new {
