@@ -1,6 +1,0 @@
--# encoding: utf-8
-%li
-	%span.title= item[:title]
-	%span.author= item[:author]
-	%ul.editions
-		!= each_tag item[:editions], "%li\n\t%img{:src => 'http://covers.openlibrary.org/b/isbn/'+item+'-S.jpg', :cover => 'Cover'}\n\t= item"

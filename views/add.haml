@@ -1,0 +1,11 @@
+-# encoding: utf-8
+!!! 5
+%html(xmlns="http://www.w3.org/1999/xhtml")
+
+	!= include 'views/invisible_header.haml'
+
+	%body
+		%h1= title
+
+		%ul
+			!= include_for_each scrape_data, 'views/add_work.haml'

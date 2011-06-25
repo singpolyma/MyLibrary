@@ -38,12 +38,22 @@ module DataStore
 		books = symbolize_keys(books)
 		open('data/books', 'w') do |fh|
 			books.each do |data|
-				fh.write "#{data[:isbn]}\t#{data[:rating]}"
-				fh.write "\t#{data[:dtadded].to_s == '' ? '' : Time.parse(data[:dtadded]).to_i}"
-				fh.write "\t#{data[:dtread].to_s == '' ? '' : Time.parse(data[:dtread]).to_i}"
-				fh.write "\t#{data[:tags].split(/,/).map{|i| i.strip}.join(',')}"
-				fh.write "\n"
+				add_book_rec(fh, data)
 			end
 		end
+	end
+
+	def add_book(book)
+		open('data/books', 'a') do |fh|
+			add_book_rec(fh, book)
+		end
+	end
+
+	def add_book_rec(fh, data)
+		fh.write "#{data[:isbn]}\t#{data[:rating]}"
+		fh.write "\t#{data[:dtadded].to_s == '' ? '' : Time.parse(data[:dtadded]).to_i}"
+		fh.write "\t#{data[:dtread].to_s == '' ? '' : Time.parse(data[:dtread]).to_i}"
+		fh.write "\t#{data[:tags].to_s.split(/,/).map{|i| i.strip}.join(',')}"
+		fh.write "\n"
 	end
 end

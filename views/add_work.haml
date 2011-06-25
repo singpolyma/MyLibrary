@@ -1,0 +1,7 @@
+-# encoding: utf-8
+%li
+	%span.title
+		%a.url{:href => item[:url]}= item[:title]
+	%span.author= item[:author]
+	%ul.editions
+		!= include_for_each item[:editions], 'views/add_edition.haml'

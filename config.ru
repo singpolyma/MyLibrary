@@ -55,5 +55,20 @@ run HttpRouter.new {
 			EditController.new(env).save
 		}
 	}
+
+	get('/add/?').head.to { |env|
+	# Digest auth is currently broken for query strings
+	# So, whatever, the search results are public, just protect the save endpoint
+	#	with_auth(env) {
+			require 'controllers/add'
+			AddController.new(env).render
+	#	}
+	}
+
+	post('/add/?').to { |env|
+		with_auth(env) {
+			require 'controllers/add'
+			AddController.new(env).save
+		}
 	}
 }

@@ -21,8 +21,7 @@ module OpenLibrary
 				if ed['isbn_13']
 					ed['isbn_13'].first
 				elsif ed['isbn_10']
-					#ISBN::isbn10_to_isbn13(ed['isbn_10'].first)
-					ed['isbn_10'].first
+					ISBN::isbn10_to_isbn13(ed['isbn_10'].first)
 				end
 			end.compact
 
@@ -31,6 +30,7 @@ module OpenLibrary
 			{
 				:title    => an(el.at('.booktitle')).text.strip,
 				:author   => an(el.at('.bookauthor')).text.strip,
+				:url      => 'http://openlibrary.org'+an(el.at('.booktitle a')).attributes['href'].to_s,
 				:editions => editions
 			}
 		end.compact
