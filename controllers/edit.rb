@@ -6,6 +6,10 @@ class EditController < ApplicationController
 		open('views/edit.haml').read
 	end
 
+	def title
+		'Edit ' + super
+	end
+
 	def save
 		DataStore.save_books(@req.POST.values)
 		render(:info => 'Books saved!')
